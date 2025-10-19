@@ -216,16 +216,19 @@ export default function Booking() {
               </div>
 
               <div>
-                <label className="flex items-center space-x-2 text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                <label htmlFor="appointment_time" className="flex items-center space-x-2 text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
                   <Clock className="w-4 h-4" />
                   <span>Preferred Time *</span>
                 </label>
                 <input
                   type="time"
+                  id="appointment_time"
                   name="appointment_time"
                   value={formData.appointment_time}
                   onChange={handleChange}
                   required
+                  min="09:00"
+                  max="17:00"
                   className="w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-teal-500 dark:focus:border-teal-400 focus:ring-2 focus:ring-teal-500/20 outline-none transition-all"
                 />
               </div>
