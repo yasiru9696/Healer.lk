@@ -3,9 +3,125 @@ import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import { supabase, type Service, type Booking } from '../lib/supabase';
 import { Calendar, Clock, User, Mail, Phone, MessageSquare, CheckCircle, AlertCircle } from 'lucide-react';
 
+// Fallback mock services data (same as Services component)
+const mockServices: Service[] = [
+  {
+    id: '1',
+    title: 'Ayurvedic Healing & Consultation',
+    slug: 'ayurveda',
+    short_description: 'Traditional Ayurvedic treatments tailored to balance your doshas and restore natural harmony through personalized herbal remedies.',
+    full_description: '',
+    duration_minutes: 60,
+    price: 5000,
+    is_active: true,
+    sort_order: 1,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: '2',
+    title: 'Ayurveda Basic Lecture',
+    slug: 'ayurveda-lecture',
+    short_description: 'Educational session on fundamental Ayurvedic principles, doshas, and lifestyle practices for holistic wellness.',
+    full_description: '',
+    duration_minutes: 90,
+    price: 3000,
+    is_active: true,
+    sort_order: 2,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: '3',
+    title: 'Panchakarma Consultation',
+    slug: 'panchakarma',
+    short_description: 'Traditional Ayurvedic detoxification therapy to cleanse and rejuvenate the body, mind, and spirit.',
+    full_description: '',
+    duration_minutes: 120,
+    price: 8000,
+    is_active: true,
+    sort_order: 3,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: '4',
+    title: 'Yoga Therapy',
+    slug: 'yoga',
+    short_description: 'Personalized yoga sessions designed to improve flexibility, strength, and mental clarity through ancient practices.',
+    full_description: '',
+    duration_minutes: 75,
+    price: 4000,
+    is_active: true,
+    sort_order: 4,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: '5',
+    title: 'Marma Therapy',
+    slug: 'marma',
+    short_description: 'Ayurvedic pressure point healing to release blocked energy and promote natural healing throughout the body.',
+    full_description: '',
+    duration_minutes: 60,
+    price: 4500,
+    is_active: true,
+    sort_order: 5,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: '6',
+    title: 'Sound Healing with Bhajans',
+    slug: 'sound-healing',
+    short_description: 'Therapeutic sound vibrations using singing bowls, gongs, and devotional bhajans to promote deep relaxation and spiritual connection.',
+    full_description: '',
+    duration_minutes: 45,
+    price: 3500,
+    is_active: true,
+    sort_order: 6,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: '7',
+    title: 'Pranayama & Breathwork',
+    slug: 'pranayama',
+    short_description: 'Advanced breathing techniques and pranayama practices to enhance vitality, calm the mind, and balance energy.',
+    full_description: '',
+    duration_minutes: 45,
+    price: 3000,
+    is_active: true,
+    sort_order: 7,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: '8',
+    title: 'Guided Meditation',
+    slug: 'meditation',
+    short_description: 'Mindfulness and Buddhist meditation practices to reduce stress, enhance inner peace, and cultivate spiritual awareness.',
+    full_description: '',
+    duration_minutes: 30,
+    price: 2500,
+    is_active: true,
+    sort_order: 8,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+];
+
+// Available appointment time slots
+const timeSlots = [
+  '08:00', '08:30', '09:00', '09:30', '10:00', '10:30',
+  '11:00', '11:30', '12:00', '12:30', '13:00', '13:30',
+  '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
+  '17:00', '17:30', '18:00'
+];
+
 export default function Booking() {
   const { ref, isVisible } = useScrollAnimation();
-  const [services, setServices] = useState<Service[]>([]);
+  const [services, setServices] = useState<Service[]>(mockServices);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
@@ -28,9 +144,10 @@ export default function Booking() {
         .eq('is_active', true)
         .order('sort_order');
 
-      if (data) {
+      if (data && data.length > 0) {
         setServices(data);
       }
+      // If no data or error, keep using mockServices
     }
     fetchServices();
   }, []);
@@ -77,9 +194,8 @@ export default function Booking() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
           ref={ref}
-          className={`transition-all duration-1000 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-          }`}
+          className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+            }`}
         >
           <div className="text-center mb-12">
             <div className="inline-flex items-center space-x-2 bg-teal-50 dark:bg-teal-900/30 px-4 py-2 rounded-full mb-4">
@@ -220,14 +336,20 @@ export default function Booking() {
                   <Clock className="w-4 h-4" />
                   <span>Preferred Time *</span>
                 </label>
-                <input
-                  type="time"
+                <select
                   name="appointment_time"
                   value={formData.appointment_time}
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-teal-500 dark:focus:border-teal-400 focus:ring-2 focus:ring-teal-500/20 outline-none transition-all"
-                />
+                >
+                  <option value="">Choose a time...</option>
+                  {timeSlots.map(time => (
+                    <option key={time} value={time}>
+                      {time}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
 

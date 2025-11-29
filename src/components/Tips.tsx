@@ -3,10 +3,65 @@ import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import { supabase, type BlogPost } from '../lib/supabase';
 import { BookOpen, Calendar, Tag, ArrowRight } from 'lucide-react';
 
+// Fallback mock data for when Supabase is unavailable
+const mockPosts: BlogPost[] = [
+  {
+    id: '1',
+    title: '5 Ayurvedic Tips for Better Sleep',
+    slug: 'ayurvedic-tips-better-sleep',
+    excerpt: 'Discover ancient Ayurvedic wisdom to improve your sleep quality naturally and wake up refreshed every morning.',
+    content: '',
+    category: 'ayurveda',
+    tags: ['sleep', 'wellness', 'ayurveda'],
+    is_published: true,
+    published_at: new Date().toISOString(),
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: '2',
+    title: 'Yoga Poses for Stress Relief',
+    slug: 'yoga-poses-stress-relief',
+    excerpt: 'Learn simple yet effective yoga poses that can help you release tension and find calm in your busy day.',
+    content: '',
+    category: 'yoga',
+    tags: ['stress', 'yoga', 'relaxation'],
+    is_published: true,
+    published_at: new Date().toISOString(),
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: '3',
+    title: 'The Healing Power of Sound',
+    slug: 'healing-power-of-sound',
+    excerpt: 'Explore how sound vibrations can promote healing, reduce anxiety, and enhance your overall well-being.',
+    content: '',
+    category: 'sound-healing',
+    tags: ['sound healing', 'meditation', 'wellness'],
+    is_published: true,
+    published_at: new Date().toISOString(),
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: '4',
+    title: 'Mindfulness for Beginners',
+    slug: 'mindfulness-for-beginners',
+    excerpt: 'Start your meditation journey with these simple mindfulness practices perfect for beginners.',
+    content: '',
+    category: 'meditation',
+    tags: ['mindfulness', 'meditation', 'beginners'],
+    is_published: true,
+    published_at: new Date().toISOString(),
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+];
+
 export default function Tips() {
   const { ref, isVisible } = useScrollAnimation();
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [posts, setPosts] = useState<BlogPost[]>(mockPosts);
 
   useEffect(() => {
     async function fetchPosts() {
@@ -17,10 +72,10 @@ export default function Tips() {
         .order('published_at', { ascending: false })
         .limit(4);
 
-      if (!error && data) {
+      if (!error && data && data.length > 0) {
         setPosts(data);
       }
-      setLoading(false);
+      // If error or no data, keep using mockPosts
     }
     fetchPosts();
   }, []);
@@ -33,18 +88,13 @@ export default function Tips() {
     wellness: 'bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-400',
   };
 
-  if (loading) {
-    return null;
-  }
-
   return (
-    <section id="tips" className="py-24 bg-white dark:bg-slate-900">
+    <section id="tips" className="py-24 bg-gradient-to-b from-white to-mint-50/30 dark:bg-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
           ref={ref}
-          className={`transition-all duration-1000 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-          }`}
+          className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+            }`}
         >
           <div className="text-center mb-16">
             <div className="inline-flex items-center space-x-2 bg-teal-50 dark:bg-teal-900/30 px-4 py-2 rounded-full mb-4">
@@ -65,9 +115,8 @@ export default function Tips() {
             {posts.map((post, index) => (
               <article
                 key={post.id}
-                className={`group bg-slate-50 dark:bg-slate-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-100 dark:border-slate-700 hover:-translate-y-2 ${
-                  isVisible ? 'animate-fade-in' : 'opacity-0'
-                }`}
+                className={`group bg-slate-50 dark:bg-slate-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-100 dark:border-slate-700 hover:-translate-y-2 ${isVisible ? 'animate-fade-in' : 'opacity-0'
+                  }`}
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="h-48 bg-gradient-to-br from-teal-100 to-amber-100 dark:from-slate-700 dark:to-slate-600 flex items-center justify-center text-5xl group-hover:scale-110 transition-transform duration-500">
@@ -81,9 +130,8 @@ export default function Tips() {
                 <div className="p-6 space-y-4">
                   <div className="flex items-center justify-between">
                     <span
-                      className={`text-xs font-semibold px-3 py-1 rounded-full ${
-                        categoryColors[post.category]
-                      }`}
+                      className={`text-xs font-semibold px-3 py-1 rounded-full ${categoryColors[post.category]
+                        }`}
                     >
                       {post.category.replace('-', ' ')}
                     </span>
@@ -115,7 +163,10 @@ export default function Tips() {
                     </div>
                   )}
 
-                  <button className="flex items-center space-x-2 text-teal-600 dark:text-teal-400 font-semibold text-sm group-hover:translate-x-2 transition-transform">
+                  <button
+                    onClick={() => alert(`Opening article: ${post.title}\n\nThis would navigate to the full blog post. In a complete implementation, this would link to /blog/${post.slug}`)}
+                    className="flex items-center space-x-2 text-teal-600 dark:text-teal-400 font-semibold text-sm group-hover:translate-x-2 transition-transform"
+                  >
                     <span>Read More</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
@@ -128,7 +179,10 @@ export default function Tips() {
             <p className="text-slate-600 dark:text-slate-400 mb-6">
               Explore more healing wisdom and practical wellness guides
             </p>
-            <button className="bg-amber-600 hover:bg-amber-700 text-white px-8 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105 inline-flex items-center space-x-2">
+            <button
+              onClick={() => alert('View All Articles\n\nThis would navigate to the blog page showing all wellness articles. In a complete implementation, this would link to /blog')}
+              className="bg-amber-600 hover:bg-amber-700 text-white px-8 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105 inline-flex items-center space-x-2"
+            >
               <BookOpen className="w-5 h-5" />
               <span>View All Articles</span>
             </button>

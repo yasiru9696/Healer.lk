@@ -13,13 +13,16 @@ export type Service = {
   id: string;
   slug: string;
   title: string;
-  description: string;
+  description?: string;
+  full_description?: string;
   short_description: string;
   duration_minutes: number;
   price: number;
-  image_url: string | null;
+  image_url?: string | null;
   is_active: boolean;
   sort_order: number;
+  created_at: string;
+  updated_at: string;
 };
 
 export type Booking = {
@@ -40,21 +43,26 @@ export type BlogPost = {
   title: string;
   excerpt: string;
   content: string;
-  featured_image: string | null;
+  featured_image?: string | null;
   category: 'ayurveda' | 'yoga' | 'sound-healing' | 'meditation' | 'wellness';
   tags: string[];
+  is_published: boolean;
   published_at: string;
+  created_at: string;
+  updated_at: string;
 };
 
 export type Testimonial = {
   id: string;
   client_name: string;
-  client_title: string;
+  client_title?: string;
   testimonial: string;
   rating: number;
-  image_url: string | null;
-  video_url: string | null;
-  is_featured: boolean;
+  image_url?: string | null;
+  video_url?: string | null;
+  is_featured?: boolean;
+  is_approved: boolean;
+  created_at: string;
 };
 
 export type ContactSubmission = {
