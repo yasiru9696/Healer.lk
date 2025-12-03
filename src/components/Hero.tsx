@@ -102,7 +102,7 @@ export default function Hero() {
                 <Heart className="w-6 h-6 text-white" />
               </div>
               <div>
-                <div className="text-2xl font-bold text-slate-900 dark:text-white">500+</div>
+                <div className="text-2xl font-bold text-slate-900 dark:text-white">200+</div>
                 <div className="text-sm text-slate-600 dark:text-slate-400">Healed Souls</div>
               </div>
             </div>
@@ -111,7 +111,7 @@ export default function Hero() {
                 <Leaf className="w-6 h-6 text-white" />
               </div>
               <div>
-                <div className="text-2xl font-bold text-slate-900 dark:text-white">15+</div>
+                <div className="text-2xl font-bold text-slate-900 dark:text-white">3+</div>
                 <div className="text-sm text-slate-600 dark:text-slate-400">Years of Wisdom</div>
               </div>
             </div>
