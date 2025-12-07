@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://healer.lk/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1

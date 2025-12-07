@@ -8,12 +8,17 @@ import Tips from './components/Tips';
 import Booking from './components/Booking';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import SEO from './components/SEO';
+import StructuredData from './components/StructuredData';
+
 
 function App() {
   const { theme, toggleTheme } = useTheme();
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-900 transition-colors">
+      <SEO />
+      <StructuredData />
       <Navigation theme={theme} toggleTheme={toggleTheme} />
       <Hero />
       <About />
