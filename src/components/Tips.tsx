@@ -89,7 +89,7 @@ export default function Tips() {
   };
 
   return (
-    <section id="tips" className="py-24 bg-gradient-to-b from-white to-mint-50/30 dark:bg-slate-900">
+    <section id="tips" className="py-24 bg-gradient-to-b from-white to-mint-50/30 dark:from-slate-900 dark:to-slate-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
           ref={ref}

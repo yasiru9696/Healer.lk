@@ -10,6 +10,7 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import SEO from './components/SEO';
 import StructuredData from './components/StructuredData';
+import SnowEffect from './components/SnowEffect';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
     <div className="min-h-screen bg-white dark:bg-slate-900 transition-colors">
       <SEO />
       <StructuredData />
+      <SnowEffect />
       <Navigation theme={theme} toggleTheme={toggleTheme} />
       <Hero />
       <About />

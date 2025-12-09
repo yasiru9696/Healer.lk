@@ -157,7 +157,7 @@ export default function Services() {
   };
 
   return (
-    <section id="services" className="py-24 bg-gradient-to-b from-teal-50/30 to-white dark:bg-slate-800">
+    <section id="services" className="py-24 bg-gradient-to-b from-teal-50/30 to-white dark:from-slate-950 dark:to-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
           ref={ref}
