@@ -129,9 +129,13 @@ export default function Hero() {
             <div className="absolute inset-0 bg-gradient-to-tl from-teal-400 to-green-400 dark:from-teal-600 dark:to-green-600 rounded-3xl -rotate-6 opacity-20 blur-2xl animate-pulse-slow animation-delay-1000" />
 
             <div className="relative bg-gradient-to-br from-white to-amber-50 dark:from-slate-800 dark:to-slate-900 rounded-3xl shadow-2xl p-8 backdrop-blur-sm border border-amber-200/50 dark:border-amber-700/30">
-              {/* Floating Om symbol */}
-              <div className="absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-br from-amber-500 to-orange-500 dark:from-amber-600 dark:to-orange-600 rounded-full flex items-center justify-center shadow-xl animate-float">
-                <span className="text-4xl text-white">🕉️</span>
+              {/* Floating meditation logo */}
+              <div className="absolute -top-6 -right-6 w-32 h-32 flex items-center justify-center animate-float">
+                <img
+                  src="/meditation-logo.jpg"
+                  alt="Ayurvedic Meditation Logo"
+                  className="w-full h-full object-contain drop-shadow-2xl"
+                />
               </div>
 
               <div className="w-full aspect-square rounded-2xl bg-gradient-to-br from-amber-100 via-orange-100 to-teal-100 dark:from-slate-700 dark:via-purple-900/30 dark:to-slate-600 flex items-center justify-center shadow-inner overflow-hidden">
