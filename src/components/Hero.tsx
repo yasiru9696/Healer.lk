@@ -132,10 +132,9 @@ export default function Hero() {
               {/* Floating meditation logo */}
               <div className="absolute -top-6 -right-6 w-32 h-32 flex items-center justify-center animate-float">
                 <img
-                  src="/meditation-logo.jpg"
+                  src="/meditation-logo.png"
                   alt="Ayurvedic Meditation Logo"
-                  className="w-full h-full object-contain drop-shadow-2xl"
-                  style={{ mixBlendMode: 'multiply' }}
+                  className="w-full h-full object-contain drop-shadow-xl"
                 />
               </div>
 
