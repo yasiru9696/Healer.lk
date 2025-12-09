@@ -135,6 +135,7 @@ export default function Hero() {
                   src="/meditation-logo.jpg"
                   alt="Ayurvedic Meditation Logo"
                   className="w-full h-full object-contain drop-shadow-2xl"
+                  style={{ mixBlendMode: 'multiply' }}
                 />
               </div>
 
