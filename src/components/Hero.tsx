@@ -134,8 +134,12 @@ export default function Hero() {
                 <span className="text-4xl text-white">🕉️</span>
               </div>
 
-              <div className="w-full aspect-square rounded-2xl bg-gradient-to-br from-amber-100 via-orange-100 to-teal-100 dark:from-slate-700 dark:via-purple-900/30 dark:to-slate-600 flex items-center justify-center text-8xl shadow-inner">
-                🧘‍♂️
+              <div className="w-full aspect-square rounded-2xl bg-gradient-to-br from-amber-100 via-orange-100 to-teal-100 dark:from-slate-700 dark:via-purple-900/30 dark:to-slate-600 flex items-center justify-center shadow-inner overflow-hidden">
+                <img
+                  src="/doctor-photo.jpg"
+                  alt="Dr. Umesha Dilhara - The Healer"
+                  className="w-full h-full object-cover"
+                />
               </div>
 
               <div className="mt-6 text-center">
