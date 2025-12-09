@@ -158,23 +158,45 @@ export default function Booking() {
     setError('');
     setSuccess(false);
 
-    const { error: insertError } = await supabase
-      .from('bookings')
-      .insert([formData]);
+    // Find the selected service details
+    const selectedService = services.find(s => s.id === formData.service_id);
 
-    if (insertError) {
-      setError('Failed to book appointment. Please try again or contact us directly.');
-    } else {
-      setSuccess(true);
-      setFormData({
-        service_id: '',
-        client_name: '',
-        client_email: '',
-        client_phone: '',
-        appointment_date: '',
-        appointment_time: '',
-        notes: '',
+    // Prepare data for Formspree
+    const formspreeData = {
+      service: selectedService ? `${selectedService.title} (${selectedService.duration_minutes} min - LKR ${selectedService.price})` : formData.service_id,
+      name: formData.client_name,
+      email: formData.client_email,
+      phone: formData.client_phone,
+      date: formData.appointment_date,
+      time: formData.appointment_time,
+      notes: formData.notes || 'No additional notes',
+    };
+
+    try {
+      const response = await fetch('https://formspree.io/f/mkgdvdkg', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formspreeData),
       });
+
+      if (response.ok) {
+        setSuccess(true);
+        setFormData({
+          service_id: '',
+          client_name: '',
+          client_email: '',
+          client_phone: '',
+          appointment_date: '',
+          appointment_time: '',
+          notes: '',
+        });
+      } else {
+        setError('Failed to book appointment. Please try again or contact us directly.');
+      }
+    } catch (err) {
+      setError('Failed to book appointment. Please try again or contact us directly.');
     }
 
     setLoading(false);
