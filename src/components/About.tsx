@@ -29,7 +29,7 @@ export default function About() {
             <div className="space-y-6">
               <div className="prose prose-lg dark:prose-invert">
                 <p className="text-slate-700 dark:text-slate-100 leading-relaxed">
-                  Dr. Umesha Dilhara has dedicated over 15 years to the study and practice of
+                  Dr. Umesha Dilhara has dedicated over 05 years to the study and practice of
                   traditional healing arts. His journey began with classical Ayurvedic medicine,
                   where he studied under renowned masters in Sri Lanka and India.
                 </p>

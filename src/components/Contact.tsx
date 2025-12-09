@@ -55,9 +55,8 @@ export default function Contact() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
           ref={ref}
-          className={`transition-all duration-1000 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-          }`}
+          className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+            }`}
         >
           <div className="text-center mb-16">
             <div className="inline-flex items-center space-x-2 bg-white dark:bg-slate-900 px-4 py-2 rounded-full mb-4 shadow-md">
@@ -146,7 +145,7 @@ export default function Contact() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      placeholder="+94 77 123 4567"
+                      placeholder="+94 71 288 8670"
                       className="w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:border-teal-500 dark:focus:border-teal-400 focus:ring-2 focus:ring-teal-500/20 outline-none transition-all"
                     />
                   </div>
@@ -205,10 +204,10 @@ export default function Contact() {
                   Available Mon-Sat, 9am-6pm
                 </p>
                 <a
-                  href="tel:+94771234567"
+                  href="tel:+94712888670"
                   className="text-teal-600 dark:text-teal-400 font-semibold hover:underline"
                 >
-                  +94 77 123 4567
+                  +94 71 288 8670
                 </a>
               </div>
 
@@ -238,9 +237,9 @@ export default function Contact() {
                   Visit Us
                 </h3>
                 <p className="text-slate-600 dark:text-slate-400">
-                  123 Healing Path<br />
-                  Colombo, Sri Lanka<br />
-                  10100
+                  Healer's Place<br />
+                  Maha Induruwa - 80510,<br />
+                  Sri Lanka.
                 </p>
               </div>
 
