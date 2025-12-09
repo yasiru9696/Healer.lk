@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
-import { supabase, type ContactSubmission } from '../lib/supabase';
+import type { ContactSubmission } from '../lib/supabase';
 import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle, MessageCircle } from 'lucide-react';
 
 export default function Contact() {
@@ -23,21 +23,29 @@ export default function Contact() {
     setError('');
     setSuccess(false);
 
-    const { error: insertError } = await supabase
-      .from('contact_submissions')
-      .insert([formData]);
-
-    if (insertError) {
-      setError('Failed to send message. Please try again or contact us directly.');
-    } else {
-      setSuccess(true);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        subject: '',
-        message: '',
+    try {
+      const response = await fetch('https://formspree.io/f/xrbnanjq', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
+
+      if (response.ok) {
+        setSuccess(true);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          subject: '',
+          message: '',
+        });
+      } else {
+        setError('Failed to send message. Please try again or contact us directly.');
+      }
+    } catch (err) {
+      setError('Failed to send message. Please try again or contact us directly.');
     }
 
     setLoading(false);
