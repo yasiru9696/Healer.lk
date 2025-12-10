@@ -39,7 +39,7 @@ const mockServices: Service[] = [
     full_description: '',
     duration_minutes: 120,
     price: 8000,
-    is_active: true,
+    is_active: false,
     sort_order: 3,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
@@ -65,7 +65,7 @@ const mockServices: Service[] = [
     full_description: '',
     duration_minutes: 60,
     price: 4500,
-    is_active: true,
+    is_active: false,
     sort_order: 5,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
@@ -141,7 +141,6 @@ export default function Booking() {
       const { data } = await supabase
         .from('services')
         .select('*')
-        .eq('is_active', true)
         .order('sort_order');
 
       if (data && data.length > 0) {
@@ -278,8 +277,13 @@ export default function Booking() {
                 >
                   <option value="">Choose a service...</option>
                   {services.map(service => (
-                    <option key={service.id} value={service.id}>
+                    <option
+                      key={service.id}
+                      value={service.id}
+                      disabled={!service.is_active}
+                    >
                       {service.title} - {service.duration_minutes} min - LKR {service.price}
+                      {!service.is_active && ' (Currently Unavailable)'}
                     </option>
                   ))}
                 </select>

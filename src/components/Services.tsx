@@ -36,7 +36,7 @@ const mockServices: Service[] = [
     short_description: 'Educational session on fundamental Ayurvedic principles, doshas, and lifestyle practices for holistic wellness.',
     full_description: '',
     duration_minutes: 90,
-    price: 3000,
+    price: 4000,
     is_active: true,
     sort_order: 2,
     created_at: new Date().toISOString(),
@@ -50,7 +50,7 @@ const mockServices: Service[] = [
     full_description: '',
     duration_minutes: 120,
     price: 8000,
-    is_active: true,
+    is_active: false,
     sort_order: 3,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
@@ -61,7 +61,7 @@ const mockServices: Service[] = [
     slug: 'yoga',
     short_description: 'Personalized yoga sessions designed to improve flexibility, strength, and mental clarity through ancient practices.',
     full_description: '',
-    duration_minutes: 75,
+    duration_minutes: 60,
     price: 4000,
     is_active: true,
     sort_order: 4,
@@ -76,7 +76,7 @@ const mockServices: Service[] = [
     full_description: '',
     duration_minutes: 60,
     price: 4500,
-    is_active: true,
+    is_active: false,
     sort_order: 5,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
@@ -87,7 +87,7 @@ const mockServices: Service[] = [
     slug: 'sound-healing',
     short_description: 'Therapeutic sound vibrations using singing bowls, gongs, and devotional bhajans to promote deep relaxation and spiritual connection.',
     full_description: '',
-    duration_minutes: 45,
+    duration_minutes: 90,
     price: 3500,
     is_active: true,
     sort_order: 6,
@@ -113,8 +113,8 @@ const mockServices: Service[] = [
     slug: 'meditation',
     short_description: 'Mindfulness and Buddhist meditation practices to reduce stress, enhance inner peace, and cultivate spiritual awareness.',
     full_description: '',
-    duration_minutes: 30,
-    price: 2500,
+    duration_minutes: 60,
+    price: 3000,
     is_active: true,
     sort_order: 8,
     created_at: new Date().toISOString(),
@@ -131,7 +131,6 @@ export default function Services() {
       const { data, error } = await supabase
         .from('services')
         .select('*')
-        .eq('is_active', true)
         .order('sort_order');
 
       if (!error && data && data.length > 0) {
@@ -142,7 +141,9 @@ export default function Services() {
     fetchServices();
   }, []);
 
-  const handleBookService = (serviceId: string) => {
+  const handleBookService = (serviceId: string, isActive: boolean) => {
+    if (!isActive) return; // Don't allow booking for inactive services
+
     const bookingSection = document.getElementById('booking');
     if (bookingSection) {
       bookingSection.scrollIntoView({ behavior: 'smooth' });
@@ -180,20 +181,30 @@ export default function Services() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service, index) => {
               const Icon = serviceIcons[service.slug as keyof typeof serviceIcons] || Sparkles;
+              const isInactive = !service.is_active;
+
               return (
                 <div
                   key={service.id}
-                  className={`group bg-white dark:bg-slate-900 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-slate-100 dark:border-slate-700 hover:-translate-y-2 flex flex-col ${isVisible ? 'animate-fade-in' : 'opacity-0'
+                  className={`group bg-white dark:bg-slate-900 rounded-2xl shadow-lg transition-all duration-500 overflow-hidden border flex flex-col ${isVisible ? 'animate-fade-in' : 'opacity-0'
+                    } ${isInactive
+                      ? 'opacity-60 grayscale cursor-not-allowed border-slate-200 dark:border-slate-800'
+                      : 'hover:shadow-2xl border-slate-100 dark:border-slate-700 hover:-translate-y-2'
                     }`}
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <div className="relative h-48 bg-gradient-to-br from-teal-50 to-amber-50 dark:from-slate-800 dark:to-slate-700 flex items-center justify-center overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-teal-400/20 to-amber-400/20 dark:from-teal-600/20 dark:to-amber-600/20 group-hover:scale-110 transition-transform duration-500" />
-                    <Icon className="w-24 h-24 text-teal-600 dark:text-teal-400 relative z-10 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500" />
+                    {isInactive && (
+                      <div className="absolute top-4 right-4 z-20 bg-red-500/90 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                        Currently Unavailable
+                      </div>
+                    )}
+                    <div className={`absolute inset-0 bg-gradient-to-br from-teal-400/20 to-amber-400/20 dark:from-teal-600/20 dark:to-amber-600/20 transition-transform duration-500 ${!isInactive && 'group-hover:scale-110'}`} />
+                    <Icon className={`w-24 h-24 text-teal-600 dark:text-teal-400 relative z-10 transition-transform duration-500 ${!isInactive && 'group-hover:scale-110 group-hover:rotate-6'}`} />
                   </div>
 
                   <div className="p-6 space-y-4 flex flex-col flex-grow">
-                    <h3 className="text-2xl font-bold text-slate-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
+                    <h3 className={`text-2xl font-bold text-slate-900 dark:text-white transition-colors ${!isInactive && 'group-hover:text-teal-600 dark:group-hover:text-teal-400'}`}>
                       {service.title}
                     </h3>
 
@@ -213,10 +224,14 @@ export default function Services() {
                     </div>
 
                     <button
-                      onClick={() => handleBookService(service.id)}
-                      className="w-full bg-teal-600 hover:bg-teal-700 text-white py-3 rounded-xl font-semibold transition-all hover:shadow-lg group-hover:scale-105"
+                      onClick={() => handleBookService(service.id, service.is_active)}
+                      disabled={isInactive}
+                      className={`w-full py-3 rounded-xl font-semibold transition-all ${isInactive
+                          ? 'bg-slate-300 dark:bg-slate-700 text-slate-500 dark:text-slate-500 cursor-not-allowed'
+                          : 'bg-teal-600 hover:bg-teal-700 text-white hover:shadow-lg group-hover:scale-105'
+                        }`}
                     >
-                      Book Session
+                      {isInactive ? 'Unavailable' : 'Book Session'}
                     </button>
                   </div>
                 </div>
